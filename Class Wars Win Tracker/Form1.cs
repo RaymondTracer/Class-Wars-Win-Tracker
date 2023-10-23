@@ -26,6 +26,92 @@ namespace Class_Wars_Win_Tracker
 
             CbxCtrlPt.SelectedIndex = 0;
             CbxStage.SelectedIndex = 0;
+
+            LblBlu.MouseClick += (_, e) =>
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    List<Label> stats = new();
+
+                    for (int blu = 0; blu < 9; blu++)
+                    {
+                        for (int red = 0; red < 9; red++)
+                        {
+                            for (int sge = 0; sge < 3; sge++)
+                            {
+                                for (int cpt = 0; cpt < 2; cpt++)
+                                {
+                                    base.Text = $"{blu + 1}{red + 1}{sge + 1}{cpt + 1}";
+
+                                    Label redClass = new()
+                                    {
+                                        Name = $"LblBluClass{blu + 1}",
+                                        Text = $"{blu}",
+                                        AutoSize = true,
+                                        ForeColor = Color.Blue
+                                    };
+
+                                    Label bluWins = new()
+                                    {
+                                        //Name = $"LblBluWins{blu}{red}{sge}{cpt}",
+                                        Name = $"LblBluWins{blu + 1}{red + 1}{sge + 1}{cpt + 1}",
+                                        Text = $"{Stats[blu].VsRed[red].Stage[sge].ControlPoint[cpt].BluWins}",
+                                        AutoSize = true,
+                                        ForeColor = Color.Blue,
+                                    };
+
+                                    if (sge is 0 && cpt is 0)
+                                    {
+                                        bluWins.Font = BoldFont(bluWins.Font);
+                                    }
+
+                                    Label redWins = new()
+                                    {
+                                        Name = $"LblRedWins{blu}{red}{sge}{cpt}",
+                                        Text = $"{Stats[blu].VsRed[red].Stage[sge].ControlPoint[cpt].BluWins}",
+                                        AutoSize = true,
+                                        ForeColor = Color.Red,
+                                    };
+
+                                    bluWins.MouseClick += (s, e) =>
+                                    {
+                                        Label lbl = (Label)s;
+
+                                        if (e.Button == MouseButtons.Right)
+                                        {
+                                            MessageBox.Show($"{lbl.Name}");
+                                        }
+                                    };
+
+                                    redWins.MouseClick += (s, e) =>
+                                    {
+                                        Label lbl = (Label)s;
+
+                                        if (e.Button == MouseButtons.Right)
+                                        {
+                                            MessageBox.Show($"{lbl.Name}");
+                                        }
+                                    };
+
+                                    stats.Add(bluWins);
+                                    stats.Add(redWins);
+                                }
+                            }
+                        }
+                    }
+
+                    Form FrmStats = new();
+
+                    for (int i = 0; i < stats.Count; i++)
+                    {
+                        stats[i].Location = new(stats[0].Size.Width * (i % 108) + (i % 4 == 0 ? 4 : 0), stats[0].Size.Height * (i / 108) + (i / 108 > 0 ? 2 : 0));
+                        FrmStats.Controls.Add(stats[i]);
+                    }
+
+                    FrmStats.Show();
+                    FrmStats.ClientSize = new(FrmStats.Controls["LblRedWins8821"].Location.X + FrmStats.Controls["LblRedWins8821"].Size.Width, FrmStats.Controls["LblRedWins8821"].Location.Y + FrmStats.Controls["LblRedWins8821"].Size.Height);
+                }
+            };
         }
 
         public StageControlPoint Tracker => Stats[CbxBlu.SelectedIndex].VsRed[CbxRed.SelectedIndex].Stage[CbxStage.SelectedIndex].ControlPoint[CbxCtrlPt.SelectedIndex];
@@ -103,6 +189,20 @@ namespace Class_Wars_Win_Tracker
         {
             LblRedWins.Text = $"RED Wins: {--Tracker.RedWins}";
             File.WriteAllText("stats.json", JsonSerializer.Serialize(Stats, options: new() { WriteIndented = true, IncludeFields = true }));
+        }
+
+        public Font BoldFont(Font font)
+        {
+            if (font != null)
+            {
+                FontStyle fontStyle = font.Style;
+                if ((fontStyle & FontStyle.Bold) == 0)
+                {
+                    fontStyle |= FontStyle.Bold;
+                    font = new Font(font, fontStyle);
+                }
+            }
+            return font;
         }
     }
 }
