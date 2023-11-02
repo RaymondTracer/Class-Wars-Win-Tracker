@@ -40,29 +40,33 @@
             BtnRedWins = new Button();
             BtnBluSubtract = new Button();
             BtnRedSubtract = new Button();
+            LblLastWin1 = new Label();
+            LblDivider1 = new Label();
+            LblLastWin2 = new Label();
+            LblDivider2 = new Label();
             SuspendLayout();
             // 
             // LblBlu
             // 
-            LblBlu.AutoSize = true;
             LblBlu.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
             LblBlu.ForeColor = Color.Blue;
-            LblBlu.Location = new Point(12, 38);
+            LblBlu.Location = new Point(12, 43);
             LblBlu.Name = "LblBlu";
-            LblBlu.Size = new Size(74, 45);
+            LblBlu.Size = new Size(82, 40);
             LblBlu.TabIndex = 0;
             LblBlu.Text = "BLU";
+            LblBlu.TextAlign = ContentAlignment.TopCenter;
             // 
             // LblRed
             // 
-            LblRed.AutoSize = true;
             LblRed.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
             LblRed.ForeColor = Color.Red;
-            LblRed.Location = new Point(120, 38);
+            LblRed.Location = new Point(120, 45);
             LblRed.Name = "LblRed";
-            LblRed.Size = new Size(77, 45);
+            LblRed.Size = new Size(82, 38);
             LblRed.TabIndex = 1;
             LblRed.Text = "RED";
+            LblRed.TextAlign = ContentAlignment.TopCenter;
             // 
             // CbxBlu
             // 
@@ -162,11 +166,49 @@
             BtnRedSubtract.UseVisualStyleBackColor = true;
             BtnRedSubtract.Click += BtnRedSubtract_Click;
             // 
+            // LblLastWin1
+            // 
+            LblLastWin1.AutoSize = true;
+            LblLastWin1.Location = new Point(12, 187);
+            LblLastWin1.Name = "LblLastWin1";
+            LblLastWin1.Size = new Size(38, 15);
+            LblLastWin1.TabIndex = 12;
+            LblLastWin1.Text = "Line 1";
+            // 
+            // LblDivider1
+            // 
+            LblDivider1.BorderStyle = BorderStyle.Fixed3D;
+            LblDivider1.Location = new Point(2, 175);
+            LblDivider1.Name = "LblDivider1";
+            LblDivider1.Size = new Size(213, 2);
+            LblDivider1.TabIndex = 14;
+            // 
+            // LblLastWin2
+            // 
+            LblLastWin2.AutoSize = true;
+            LblLastWin2.Location = new Point(12, 202);
+            LblLastWin2.Name = "LblLastWin2";
+            LblLastWin2.Size = new Size(38, 15);
+            LblLastWin2.TabIndex = 15;
+            LblLastWin2.Text = "Line 2";
+            // 
+            // LblDivider2
+            // 
+            LblDivider2.BorderStyle = BorderStyle.Fixed3D;
+            LblDivider2.Location = new Point(2, 43);
+            LblDivider2.Name = "LblDivider2";
+            LblDivider2.Size = new Size(213, 2);
+            LblDivider2.TabIndex = 16;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(216, 185);
+            ClientSize = new Size(216, 225);
+            Controls.Add(LblDivider2);
+            Controls.Add(LblLastWin2);
+            Controls.Add(LblDivider1);
+            Controls.Add(LblLastWin1);
             Controls.Add(BtnRedSubtract);
             Controls.Add(BtnBluSubtract);
             Controls.Add(BtnRedWins);
@@ -180,7 +222,7 @@
             Controls.Add(LblRed);
             Controls.Add(LblBlu);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Class Wars Dustbowl Wins Tracker";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -199,5 +241,9 @@
         private Button BtnRedWins;
         private Button BtnBluSubtract;
         private Button BtnRedSubtract;
+        private Label LblLastWin1;
+        private Label LblDivider1;
+        private Label LblLastWin2;
+        private Label LblDivider2;
     }
 }
