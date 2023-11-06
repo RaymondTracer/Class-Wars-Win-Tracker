@@ -11,7 +11,7 @@ namespace Class_Wars_Win_Tracker
         [LibraryImport("user32.dll")]
         private static partial void SwitchToThisWindow(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool fAltTab);
 
-        private readonly ClassWarsWinTracker Stats = DefaultStats.Get;
+        private readonly ClassWarsWinTracker Stats = new();
 
         private readonly IKeyboardEvents KeyboardHook;
 
