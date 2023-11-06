@@ -8,17 +8,12 @@ namespace Class_Wars_Win_Tracker
 {
     public class ClassWarsWinTracker
     {
-        public BluClass[] Classes { get; set; }
-
-        public BluClass this[int tf2class]
-        {
-            get => Classes[tf2class];
-        }
+        public BluClass[] Blu { get; set; }
     }
 
     public class BluClass
     {
-        public RedClass[] VsRed { get; set; }
+        public RedClass[] Red { get; set; }
     }
 
     public class RedClass
@@ -33,7 +28,7 @@ namespace Class_Wars_Win_Tracker
 
     public class StageControlPoint
     {
-        public int BluWins { get; set; }
-        public int RedWins { get; set; }
+        public byte BluWins { get; set; }
+        public byte RedWins { get; set; }
     }
 }

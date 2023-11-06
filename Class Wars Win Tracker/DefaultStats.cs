@@ -6,11 +6,11 @@ namespace Class_Wars_Win_Tracker
     {
         public static ClassWarsWinTracker Get => new()
         {
-            Classes = new BluClass[9]
+            Blu = new BluClass[9]
                     {
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -286,7 +286,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -554,7 +554,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -822,7 +822,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -1090,7 +1090,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -1358,7 +1358,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -1626,7 +1626,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -1894,7 +1894,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
@@ -2162,7 +2162,7 @@ namespace Class_Wars_Win_Tracker
                         },
                         new()
                         {
-                            VsRed = new RedClass[9]
+                            Red = new RedClass[9]
                             {
                                 new()
                                 {
