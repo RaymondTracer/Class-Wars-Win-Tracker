@@ -499,10 +499,5 @@ namespace Class_Wars_Win_Tracker
             // NOTE: In some rare cases ProcessID will be NULL. Handle this how you want. 
             return fgProc;
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

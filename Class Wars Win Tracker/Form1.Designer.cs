@@ -286,7 +286,6 @@
             Controls.Add(LblBlu);
             Name = "Form1";
             Text = "Class Wars Dustbowl Wins Tracker";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
