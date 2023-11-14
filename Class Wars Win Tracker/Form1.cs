@@ -2,7 +2,6 @@ using Gma.System.MouseKeyHook;
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 
 namespace Class_Wars_Win_Tracker
 {
@@ -93,28 +92,28 @@ namespace Class_Wars_Win_Tracker
             {
                 if (e.Control && GameIsForeground)
                 {
-                    if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+                    if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9 && CbxBlu.Enabled)
                     {
                         e.Handled = true;
                         CbxBlu.SelectedIndex = Convert.ToInt32(e.KeyCode.ToString().Last().ToString()) - 1;
                     }
-                    else if (e.KeyCode == Keys.Up && CbxBlu.SelectedIndex > 0)
+                    else if (e.KeyCode == Keys.Up && CbxBlu.SelectedIndex > 0 && CbxBlu.Enabled)
                     {
                         e.Handled = true;
                         --CbxBlu.SelectedIndex;
                     }
-                    else if (e.KeyCode == Keys.Down && CbxBlu.SelectedIndex < 8)
+                    else if (e.KeyCode == Keys.Down && CbxBlu.SelectedIndex < 8 && CbxBlu.Enabled)
                     {
                         e.Handled = true;
                         ++CbxBlu.SelectedIndex;
                     }
-                    else if (e.KeyCode == Keys.Left && CbxStage.SelectedIndex > 0)
+                    else if (e.KeyCode == Keys.Left && CbxStage.SelectedIndex > 0 && CbxStage.Enabled)
                     {
                         e.Handled = true;
                         --CbxStage.SelectedIndex;
                         CbxCtrlPt.SelectedIndex = 0;
                     }
-                    else if (e.KeyCode == Keys.Right && CbxStage.SelectedIndex < 2)
+                    else if (e.KeyCode == Keys.Right && CbxStage.SelectedIndex < 2 && CbxStage.Enabled)
                     {
                         e.Handled = true;
                         ++CbxStage.SelectedIndex;
@@ -124,17 +123,17 @@ namespace Class_Wars_Win_Tracker
 
                 if (e.Alt && GameIsForeground)
                 {
-                    if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+                    if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9 && CbxRed.Enabled)
                     {
                         e.Handled = true;
                         CbxRed.SelectedIndex = Convert.ToInt32(e.KeyCode.ToString().Last().ToString()) - 1;
                     }
-                    else if (e.KeyCode == Keys.Up && CbxRed.SelectedIndex > 0)
+                    else if (e.KeyCode == Keys.Up && CbxRed.SelectedIndex > 0 && CbxRed.Enabled)
                     {
                         e.Handled = true;
                         --CbxRed.SelectedIndex;
                     }
-                    else if (e.KeyCode == Keys.Down && CbxRed.SelectedIndex < 8)
+                    else if (e.KeyCode == Keys.Down && CbxRed.SelectedIndex < 8 && CbxRed.Enabled)
                     {
                         e.Handled = true;
                         ++CbxRed.SelectedIndex;
@@ -157,7 +156,9 @@ namespace Class_Wars_Win_Tracker
                 if (e.Button == MouseButtons.Right)
                 {
                     List<Label> stats = new();
-                    int space = 12;
+
+                    int const_space = 10;
+                    int space = const_space;
 
                     for (int blu = 0; blu < 9; blu++)
                     {
@@ -173,13 +174,13 @@ namespace Class_Wars_Win_Tracker
                                     byte bluWins = cp.BluWins;
                                     byte redWins = cp.RedWins;
 
-                                    if (12 * bluWins.ToString().Length < space)
+                                    if (const_space * bluWins.ToString().Length > space)
                                     {
-                                        space = 12 * bluWins.ToString().Length;
+                                        space = const_space * bluWins.ToString().Length;
                                     }
-                                    else if (12 * redWins.ToString().Length < space)
+                                    else if (const_space * redWins.ToString().Length > space)
                                     {
-                                        space = 12 * redWins.ToString().Length;
+                                        space = const_space * redWins.ToString().Length;
                                     }
 
                                     Label lblRedClass = new()
@@ -407,52 +408,98 @@ namespace Class_Wars_Win_Tracker
             Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{++Tracker.BluWins}";
             SaveData();
 
-            LblLastWin1.Text = $"BLU {CbxBlu.Text} won against{Environment.NewLine}RED {CbxRed.Text} on {CbxStage.Text}, {CbxCtrlPt.Text}";
+            LblLastWin.Text = $"BLU {CbxBlu.Text} won against{Environment.NewLine}RED {CbxRed.Text} on {CbxStage.Text}, {CbxCtrlPt.Text}";
 
-            if (CbxCtrlPt.SelectedIndex == 1)
+            Task.Run(() =>
             {
-                CbxCtrlPt.SelectedIndex = 0;
-
-                if (CbxStage.SelectedIndex == 2)
+                Invoke(() =>
                 {
-                    CbxStage.SelectedIndex = 0;
-                }
-                else
-                {
-                    ++CbxStage.SelectedIndex;
-                }
+                    if (CbxCtrlPt.SelectedIndex == 1)
+                    {
+                        CbxStage.Enabled = false;
+                        CbxCtrlPt.Enabled = false;
+                        CbxBlu.Enabled = false;
+                        CbxRed.Enabled = false;
 
-                CbxBlu.SelectedIndex = -1;
-                CbxRed.SelectedIndex = -1;
-            }
-            else
-            {
-                CbxCtrlPt.SelectedIndex = 1;
-            }
+                        BtnBluWins.Enabled = false;
+                        BtnRedWins.Enabled = false;
+                        BtnBluSubtract.Enabled = false;
+                        BtnRedSubtract.Enabled = false;
 
-            SwitchToThisWindow(GameProcess.MainWindowHandle, true);
+                        Refresh();
+
+                        Task.Delay(4000).Wait();
+
+                        CbxBlu.SelectedIndex = -1;
+                        CbxRed.SelectedIndex = -1;
+
+                        CbxCtrlPt.SelectedIndex = 0;
+
+                        if (CbxStage.SelectedIndex == 2)
+                        {
+                            CbxStage.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            ++CbxStage.SelectedIndex;
+                        }
+                    }
+                    else
+                    {
+                        CbxCtrlPt.SelectedIndex = 1;
+                    }
+
+                    CbxStage.Enabled = true;
+                    CbxCtrlPt.Enabled = true;
+                    CbxBlu.Enabled = true;
+                    CbxRed.Enabled = true;
+
+                    Refresh();
+                });
+            });
         }
 
         private void BtnRedWins_Click(object sender, EventArgs e)
         {
-            Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"RED Wins: {++Tracker.RedWins}";
+            Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{++Tracker.RedWins}";
             SaveData();
 
-            LblLastWin1.Text = $"RED {CbxRed.Text} won against{Environment.NewLine}BLU {CbxBlu.Text} on {CbxStage.Text}, {CbxCtrlPt.Text}";
+            LblLastWin.Text = $"RED {CbxRed.Text} won against{Environment.NewLine}BLU {CbxBlu.Text} on {CbxStage.Text}, {CbxCtrlPt.Text}";
 
-            CbxStage.SelectedIndex = 0;
-            CbxCtrlPt.SelectedIndex = 0;
-            CbxBlu.SelectedIndex = -1;
-            CbxRed.SelectedIndex = -1;
+            CbxStage.Enabled = false;
+            CbxCtrlPt.Enabled = false;
+            CbxBlu.Enabled = false;
+            CbxRed.Enabled = false;
 
-            SwitchToThisWindow(GameProcess.MainWindowHandle, true);
+            BtnBluWins.Enabled = false;
+            BtnRedWins.Enabled = false;
+            BtnBluSubtract.Enabled = false;
+            BtnRedSubtract.Enabled = false;
+
+            Task.Run(() =>
+            {
+                Task.Delay(4000).Wait();
+
+                Invoke(() =>
+                {
+                    CbxStage.SelectedIndex = 0;
+                    CbxCtrlPt.SelectedIndex = 0;
+                    CbxBlu.SelectedIndex = -1;
+                    CbxRed.SelectedIndex = -1;
+
+                    CbxStage.Enabled = true;
+                    CbxCtrlPt.Enabled = true;
+                    CbxBlu.Enabled = true;
+                    CbxRed.Enabled = true;
+                });
+            });
         }
 
         private void BtnBluSubtract_Click(object sender, EventArgs e)
         {
             if (Tracker.BluWins > 0)
             {
-                Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"BLU Wins: {--Tracker.BluWins}";
+                Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{--Tracker.BluWins}";
                 SaveData();
             }
         }
@@ -461,7 +508,7 @@ namespace Class_Wars_Win_Tracker
         {
             if (Tracker.RedWins > 0)
             {
-                Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"RED Wins: {--Tracker.RedWins}";
+                Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{--Tracker.RedWins}";
                 SaveData();
             }
         }

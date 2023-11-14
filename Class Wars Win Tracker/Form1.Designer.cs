@@ -40,7 +40,7 @@
             BtnRedWins = new Button();
             BtnBluSubtract = new Button();
             BtnRedSubtract = new Button();
-            LblLastWin1 = new Label();
+            LblLastWin = new Label();
             LblDivider1 = new Label();
             LblDivider2 = new Label();
             LblBluWinsCpt1 = new Label();
@@ -172,14 +172,14 @@
             BtnRedSubtract.UseVisualStyleBackColor = true;
             BtnRedSubtract.Click += BtnRedSubtract_Click;
             // 
-            // LblLastWin1
+            // LblLastWin
             // 
-            LblLastWin1.Location = new Point(12, 187);
-            LblLastWin1.MaximumSize = new Size(213, 40);
-            LblLastWin1.Name = "LblLastWin1";
-            LblLastWin1.Size = new Size(210, 40);
-            LblLastWin1.TabIndex = 12;
-            LblLastWin1.Text = "Line 1";
+            LblLastWin.Location = new Point(12, 187);
+            LblLastWin.MaximumSize = new Size(213, 40);
+            LblLastWin.Name = "LblLastWin";
+            LblLastWin.Size = new Size(210, 40);
+            LblLastWin.TabIndex = 12;
+            LblLastWin.Text = "Line 1";
             // 
             // LblDivider1
             // 
@@ -271,7 +271,7 @@
             Controls.Add(LblBluWinsCpt1);
             Controls.Add(LblDivider2);
             Controls.Add(LblDivider1);
-            Controls.Add(LblLastWin1);
+            Controls.Add(LblLastWin);
             Controls.Add(BtnRedSubtract);
             Controls.Add(BtnBluSubtract);
             Controls.Add(BtnRedWins);
@@ -304,7 +304,7 @@
         private Button BtnRedWins;
         private Button BtnBluSubtract;
         private Button BtnRedSubtract;
-        private Label LblLastWin1;
+        private Label LblLastWin;
         private Label LblDivider1;
         private Label LblDivider2;
         private Label LblBluWinsCpt1;
