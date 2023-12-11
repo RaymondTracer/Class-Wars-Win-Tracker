@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Class_Wars_Win_Tracker
 {
-    public partial class Form1 : Form
+    public partial class FrmMain : Form
     {
         [LibraryImport("user32.dll")]
         private static partial void SwitchToThisWindow(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool fAltTab);
@@ -52,7 +52,7 @@ namespace Class_Wars_Win_Tracker
 
         public void SaveData()
         {
-            List<byte> data = new() { DataFormatVersion };
+            List<byte> data = [DataFormatVersion];
 
             for (int blu = 0; blu < 9; blu++)
             {
@@ -69,10 +69,10 @@ namespace Class_Wars_Win_Tracker
                 }
             }
 
-            File.WriteAllBytes(DataFile, data.ToArray());
+            File.WriteAllBytes(DataFile, [.. data]);
         }
 
-        public Form1()
+        public FrmMain()
         {
             KeyboardHook = Hook.GlobalEvents();
 
@@ -155,7 +155,7 @@ namespace Class_Wars_Win_Tracker
             {
                 if (e.Button == MouseButtons.Right)
                 {
-                    List<Label> stats = new();
+                    List<Label> stats = [];
 
                     int const_space = 10;
                     int space = const_space;
@@ -271,7 +271,7 @@ namespace Class_Wars_Win_Tracker
             {
                 if (e.Button == MouseButtons.Right)
                 {
-                    List<string> stuff = new();
+                    List<string> stuff = [];
 
                     for (int blu = 0; blu < 9; blu++)
                     {
@@ -281,16 +281,15 @@ namespace Class_Wars_Win_Tracker
                             {
                                 base.Text = $"{blu + 1}{red + 1}{sge + 1}";
 
-                                if (Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].BluWins + Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].RedWins > Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[0].BluWins)
+                                if (Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[0].BluWins + Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[0].RedWins == 0)
                                 {
-                                    stuff.Add($"{blu}, {red}, {sge} -> {Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].BluWins} + {Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].RedWins} > {Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[0].BluWins}");
-                                    Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[0].BluWins = (byte)(Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].BluWins + Stats.Blu[blu].Red[red].Stage[sge].ControlPoint[1].RedWins);
+                                    stuff.Add($"BLU {CbxBlu.Items[blu]} vs RED {CbxRed.Items[red]}, Stage {sge + 1}");
                                 }
                             }
                         }
                     }
 
-                    if (stuff.Any())
+                    if (stuff.Count != 0)
                     {
                         MessageBox.Show(string.Join(Environment.NewLine, stuff));
                     }
@@ -299,14 +298,16 @@ namespace Class_Wars_Win_Tracker
 
             Task.Run(() =>
             {
-                bool gameWasOpen = false;
+                bool gameIsOpen = false;
                 while (!Disposing)
                 {
-                    if (GameProcess != null && !gameWasOpen || GameProcess == null && gameWasOpen)
+                    if (GameProcess != null && !gameIsOpen || GameProcess == null && gameIsOpen)
                     {
+                        gameIsOpen = !gameIsOpen;
+
                         Invoke(() =>
                         {
-                            if (gameWasOpen)
+                            if (!gameIsOpen)
                             {
                                 CbxStage.SelectedIndex = 0;
                                 CbxCtrlPt.SelectedIndex = 0;
@@ -322,7 +323,11 @@ namespace Class_Wars_Win_Tracker
                             }
                         });
 
-                        gameWasOpen = !gameWasOpen;
+                    }
+
+                    if (gameIsOpen && !IsKeyLocked(Keys.NumLock) && GameIsForeground)
+                    {
+                        Utils.SetNumLockOn();
                     }
 
                     Task.Delay(1000).Wait();
@@ -405,7 +410,20 @@ namespace Class_Wars_Win_Tracker
 
         private void BtnBluWins_Click(object sender, EventArgs e)
         {
-            Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{++Tracker.BluWins}";
+            if (CbxCtrlPt.SelectedIndex == 0)
+            {
+                StageControlPoint cp2 = Stats.Blu[CbxBlu.SelectedIndex].Red[CbxRed.SelectedIndex].Stage[CbxStage.SelectedIndex].ControlPoint[1];
+                if (cp2.BluWins + cp2.RedWins == Tracker.BluWins)
+                {
+                    ++Tracker.BluWins;
+                }
+            }
+            else
+            {
+                ++Tracker.BluWins;
+            }
+
+            Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].Text = $"{Tracker.BluWins}";
             SaveData();
 
             LblLastWin.Text = $"BLU {CbxBlu.Text} won against{Environment.NewLine}RED {CbxRed.Text} on {CbxStage.Text}, {CbxCtrlPt.Text}";
@@ -426,9 +444,15 @@ namespace Class_Wars_Win_Tracker
                         BtnBluSubtract.Enabled = false;
                         BtnRedSubtract.Enabled = false;
 
+                        Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].ForeColor = Color.LightGreen;
+                        Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].BackColor = Color.Green;
+
                         Refresh();
 
                         Task.Delay(4000).Wait();
+
+                        Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].ForeColor = Color.Black;
+                        Controls[$"LblBluWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].BackColor = DefaultBackColor;
 
                         CbxBlu.SelectedIndex = -1;
                         CbxRed.SelectedIndex = -1;
@@ -478,10 +502,16 @@ namespace Class_Wars_Win_Tracker
 
             Task.Run(() =>
             {
-                Task.Delay(4000).Wait();
-
                 Invoke(() =>
                 {
+                    Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].ForeColor = Color.LightGreen;
+                    Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].BackColor = Color.Green;
+
+                    Task.Delay(4000).Wait();
+
+                    Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].ForeColor = Color.Black;
+                    Controls[$"LblRedWinsCpt{CbxCtrlPt.SelectedIndex + 1}"].BackColor = DefaultBackColor;
+
                     CbxStage.SelectedIndex = 0;
                     CbxCtrlPt.SelectedIndex = 0;
                     CbxBlu.SelectedIndex = -1;
@@ -545,6 +575,11 @@ namespace Class_Wars_Win_Tracker
             Process fgProc = Process.GetProcessById(Convert.ToInt32(processID)); // Get it as a C# obj.
             // NOTE: In some rare cases ProcessID will be NULL. Handle this how you want. 
             return fgProc;
+        }
+
+        private void FrmMain_LocationChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -64,3 +64,4 @@ namespace Class_Wars_Win_Tracker
         public byte RedWins { get; set; } = 0;
     }
 }
+  

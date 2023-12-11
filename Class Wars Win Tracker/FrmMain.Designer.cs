@@ -1,6 +1,6 @@
 ﻿namespace Class_Wars_Win_Tracker
 {
-    partial class Form1
+    partial class FrmMain
     {
         /// <summary>
         ///  Required designer variable.
@@ -47,14 +47,14 @@
             LblBluWinsCpt2 = new Label();
             LblRedWinsCpt2 = new Label();
             LblRedWinsCpt1 = new Label();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            LblDivider3 = new Label();
+            LblDivider4 = new Label();
+            LblDivider5 = new Label();
             SuspendLayout();
             // 
             // LblBlu
             // 
-            LblBlu.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            LblBlu.Font = new Font("Segoe UI", 24F);
             LblBlu.ForeColor = Color.Blue;
             LblBlu.Location = new Point(12, 43);
             LblBlu.Name = "LblBlu";
@@ -65,9 +65,9 @@
             // 
             // LblRed
             // 
-            LblRed.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            LblRed.Font = new Font("Segoe UI", 24F);
             LblRed.ForeColor = Color.Red;
-            LblRed.Location = new Point(140, 45);
+            LblRed.Location = new Point(140, 43);
             LblRed.Name = "LblRed";
             LblRed.Size = new Size(82, 38);
             LblRed.TabIndex = 1;
@@ -233,38 +233,38 @@
             LblRedWinsCpt1.TabIndex = 19;
             LblRedWinsCpt1.Text = "XY";
             // 
-            // label1
+            // LblDivider3
             // 
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Location = new Point(72, 115);
-            label1.Name = "label1";
-            label1.Size = new Size(2, 50);
-            label1.TabIndex = 21;
+            LblDivider3.BorderStyle = BorderStyle.Fixed3D;
+            LblDivider3.Location = new Point(72, 115);
+            LblDivider3.Name = "LblDivider3";
+            LblDivider3.Size = new Size(2, 50);
+            LblDivider3.TabIndex = 21;
             // 
-            // label2
+            // LblDivider4
             // 
-            label2.BorderStyle = BorderStyle.Fixed3D;
-            label2.Location = new Point(94, 118);
-            label2.Name = "label2";
-            label2.Size = new Size(2, 50);
-            label2.TabIndex = 22;
+            LblDivider4.BorderStyle = BorderStyle.Fixed3D;
+            LblDivider4.Location = new Point(94, 118);
+            LblDivider4.Name = "LblDivider4";
+            LblDivider4.Size = new Size(2, 50);
+            LblDivider4.TabIndex = 22;
             // 
-            // label3
+            // LblDivider5
             // 
-            label3.BorderStyle = BorderStyle.Fixed3D;
-            label3.Location = new Point(12, 141);
-            label3.Name = "label3";
-            label3.Size = new Size(105, 2);
-            label3.TabIndex = 23;
+            LblDivider5.BorderStyle = BorderStyle.Fixed3D;
+            LblDivider5.Location = new Point(12, 141);
+            LblDivider5.Name = "LblDivider5";
+            LblDivider5.Size = new Size(105, 2);
+            LblDivider5.TabIndex = 23;
             // 
-            // Form1
+            // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(234, 226);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(LblDivider5);
+            Controls.Add(LblDivider4);
+            Controls.Add(LblDivider3);
             Controls.Add(LblRedWinsCpt2);
             Controls.Add(LblRedWinsCpt1);
             Controls.Add(LblBluWinsCpt2);
@@ -284,8 +284,12 @@
             Controls.Add(CbxBlu);
             Controls.Add(LblRed);
             Controls.Add(LblBlu);
-            Name = "Form1";
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            Name = "FrmMain";
+            ShowIcon = false;
             Text = "Class Wars Dustbowl Wins Tracker";
+            LocationChanged += FrmMain_LocationChanged;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -311,8 +315,8 @@
         private Label LblBluWinsCpt2;
         private Label LblRedWinsCpt2;
         private Label LblRedWinsCpt1;
-        private Label label1;
-        private Label label2;
-        private Label label3;
+        private Label LblDivider3;
+        private Label LblDivider4;
+        private Label LblDivider5;
     }
 }
